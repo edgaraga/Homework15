@@ -4,7 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +14,7 @@ import java.util.List;
 
 
 public class GameManager {
-    private List<Player> players = new ArrayList<>();
+   /* private List<Player> players = new ArrayList<>();
 
     public boolean register(Player player) {
         return players.add(player);
@@ -42,5 +44,28 @@ public class GameManager {
             }
         }
         return -1;
+    }*/
+
+    private Map<String, Player> players = new HashMap<>();
+
+    public void register(String name, Player player) {
+        players.put(name, player);
+    }
+
+    public int round(String playerName1, String playerName2) {
+        Player player1 = players.get(playerName1);
+        Player player2 = players.get(playerName2);
+        if (player1 == null) {
+            throw new NotRegisteredException("Первый игрок не зарегистрирован");
+        } else if (player2 == null) {
+            throw new NotRegisteredException("Второй игрок не зарегистрирован");
+        }
+        if (player1.getStrength() > player2.getStrength()) {
+            return 1;
+        } else if (player1.getStrength() < player2.getStrength()) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 }
